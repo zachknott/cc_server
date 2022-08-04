@@ -27,8 +27,8 @@ impl ClientConfig {
         serde_json::to_string(self).unwrap()
     }
 
-    pub fn to_config(configStr: String) -> ClientConfig {
-        let response: ClientConfig = serde_json::from_str(&configStr).unwrap();
+    pub fn to_config(config_string: String) -> ClientConfig {
+        let response: ClientConfig = serde_json::from_str(&config_string).unwrap();
         response
     }
 }

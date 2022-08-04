@@ -3,9 +3,9 @@ use std::net::TcpStream;
 use std::io::prelude::*;
 
 
-mod ThreadTools;
+mod thread_tools;
 
-use ThreadTools::ThreadPool;
+use thread_tools::ThreadPool;
 
 mod sys_config;
 use sys_config::ClientConfig;
@@ -28,8 +28,12 @@ fn main() {
 fn handle_connection(mut stream: TcpStream) {
     let mut buffer = [0; 1024];
     stream.read(&mut buffer).unwrap();
-    
-    let config: ClientConfig = ClientConfig::to_config(String::from_utf8_lossy(&buffer).to_string());
+
+    let rcv = String::from_utf8_lossy(&buffer).trim().to_string();
+
+    let (rcv, _) = rcv.split_at(rcv.find("}").unwrap() + 1);
+
+    let config: ClientConfig = ClientConfig::to_config(String::from(rcv));
     
     println!("{}", config.to_string());
 

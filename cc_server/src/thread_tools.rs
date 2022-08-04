@@ -72,6 +72,7 @@ enum Message {
     NewJob(Job),
     Terminate,
 }
+
 struct Worker {
     id: usize ,
     handle: Option<thread::JoinHandle<()>> ,
@@ -86,8 +87,6 @@ impl Worker {
 
                 match message {
                     Message::NewJob(job) => {
-                        println!("Worker {} got a job; executing.", id);
-
                         job();
                     }
                     Message::Terminate => {
